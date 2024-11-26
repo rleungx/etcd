@@ -434,7 +434,7 @@ func (a *applierV3backend) Txn(ctx context.Context, rt *pb.TxnRequest) (*pb.TxnR
 		trace = traceutil.New("transaction", a.s.Logger())
 		ctx = context.WithValue(ctx, traceutil.TraceKey, trace)
 	}
-	isWrite := !isTxnReadonly(rt)
+	isWrite := !isTxnReadonly(rt, lg)
 
 	// When the transaction contains write operations, we use ReadTx instead of
 	// ConcurrentReadTx to avoid extra overhead of copying buffer.
