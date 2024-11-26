@@ -155,6 +155,8 @@ func (s *EtcdServer) DeleteRange(ctx context.Context, r *pb.DeleteRangeRequest) 
 
 func (s *EtcdServer) Txn(ctx context.Context, r *pb.TxnRequest) (*pb.TxnResponse, error) {
 	if isTxnReadonly(r, s.Logger()) {
+		lg := s.Logger()
+		lg.Info("txn request", zap.Int("success", len(r.Success)), zap.Int("failure", len(r.Failure)), zap.String("request", r.String()))
 		trace := traceutil.New("transaction",
 			s.Logger(),
 			traceutil.Field{Key: "read_only", Value: true},
