@@ -154,6 +154,7 @@ func (s *EtcdServer) DeleteRange(ctx context.Context, r *pb.DeleteRangeRequest) 
 }
 
 func (s *EtcdServer) Txn(ctx context.Context, r *pb.TxnRequest) (*pb.TxnResponse, error) {
+	s.lg.Info("txn request", zap.String("request", r.String()), zap.Bool("istxnreadonly", isTxnReadonly(r)))
 	if isTxnReadonly(r) {
 		trace := traceutil.New("transaction",
 			s.Logger(),
